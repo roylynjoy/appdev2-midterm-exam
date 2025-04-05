@@ -1,23 +1,27 @@
 const fs = require('fs');
 
-fs.writeFile('message.txt', 'Node.js is awesome!', (err) => {
-    console.log('file written')
-})
+fs.writeFile("message.txt",' Node.js is awesome', (err) => {
+  if (err) {
+    console.error("Error writing to file:", err);
+    return;
+  }
 
-fs.readFile('message.txt', (err) => {
-    if (err) {
-        console.log('error occur', err)
-    } else {
-        console.log('read file')
-    } 
-})
+  console.log("File created and data written successfully.");
 
-fs.unlink('message.txt', (err) => {
+  fs.readFile('message.txt', 'utf8', (err, data) => {
     if (err) {
-        console.error('Error deleting file:', err);
-    } else {
-        console.log('File deleted successfully!');
+      console.error("Error reading the file:", err);
+      return;
     }
+    console.log("File contents:", data);
 
-})
+    fs.unlink("message.txt", (err) => {
+      if (err) {
+        console.error("Error deleting the file:", err);
+        return;
+      }
+      console.log("File deleted successfully.");
+    });
+  });
+});
 
